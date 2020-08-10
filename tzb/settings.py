@@ -141,145 +141,145 @@ STATICFILES_DIRS = (
 )
 LOGS_DIR = "/Users/guozhixiao/Downloads/log/"
 # 配置日志信息
-LOGGING = {
-    # 设置版本
-    'version': 1,
-    # 是否允许其他日志功能，Flase表示不禁用，禁用导致其他记录日志的功能将被阻止
-    'disable_existing_loggers': True,
-    # 格式化，日志输出格式
-    'formatters': {
-        # 详细
-       'standard': {
-            # 日志格式
-            'format': '%(asctime)s [%(threadName)s:%(thread)d] [%(name)s:%(lineno)d] [%(module)s:%(funcName)s] [%(levelname)s]- %(message)s-%(process)d'
-       },
-        # 简单，可以自己添加或减少，看需求
-        'simple': {
-            'format': '%(levelname)s %(module)s  %(message)s'
-        },
-    },
-    # 过滤器，过滤掉debug级别的错误，原因：debuf会输出在控制台，没必要记录
-    'filters': {
-        'require_debug_true': {
-            '()': 'django.utils.log.RequireDebugTrue',
-        },
-    },
-    # 日志的处理方式
-    'handlers': {
-        # 将级别为DEBUG的错误以简单的形式输出在控制台
-        'console': {
-            'level': 'DEBUG',
-            'filters': ['require_debug_true'],
-            'class': 'logging.StreamHandler',
-            'formatter': 'simple'
-        },
-        # 'console': {
-        #     'level': 'DEBUG',
-        #     'class': 'logging.StreamHandler',
-        #     'formatter': 'standard'
-        # },
-        # 将INFO级别及以上的错误储存在文件中
-        'file': {
-            'level': 'INFO',
-            'class': 'logging.handlers.RotatingFileHandler',
-            # 日志文件的位置
-            'filename': '/Users/guozhixiao/Downloads/log/crawler.log',
-            # 单个文件大小 300M
-            'maxBytes': 300 * 1024 * 1024,
-            # 最多储存文件个数，超过十个则重头开始覆盖第一个文件
-            'backupCount': 10,
-            # 使用哪种formatters日志格式
-            'formatter': 'standard',
-        },
-        # 以邮件形式发送日志
-        'mail_admins': {
-            'level': 'ERROR',
-            'class': 'django.utils.log.AdminEmailHandler',
-            'include_html': True,
-        },
-        # 默认debug级别
-        'default': {
-            'level': 'DEBUG',
-            'class': 'logging.handlers.RotatingFileHandler',
-            # 日志文件的位置
-            'filename': '/Users/guozhixiao/Downloads/log/crawler_default.log',
-            # 单个文件大小 300M
-            'maxBytes': 300 * 1024 * 1024,
-            # 最多储存文件个数，超过十个则重头开始覆盖第一个文件
-            'backupCount': 10,
-            # 使用哪种formatters日志格式
-            'formatter': 'standard',
-        },
-        # 错误级别日志
-        'error': {
-            'level': 'ERROR',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': '/Users/guozhixiao/Downloads/log/crawler_error.log',
-            # 单个文件大小 300M
-            'maxBytes': 300 * 1024 * 1024,
-            # 最多储存文件个数，超过十个则重头开始覆盖第一个文件
-            'backupCount': 10,
-            # 使用哪种formatters日志格式
-            'formatter': 'standard',
-        },
-        'request_handler': {
-            'level': 'DEBUG',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': '/Users/guozhixiao/Downloads/log/crawler_request_handler.log',
-            # 单个文件大小 300M
-            'maxBytes': 300 * 1024 * 1024,
-            # 最多储存文件个数，超过十个则重头开始覆盖第一个文件
-            'backupCount': 10,
-            # 使用哪种formatters日志格式
-            'formatter': 'standard',
-        },
-        'scprits_handler': {
-            'level': 'DEBUG',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': '/Users/guozhixiao/Downloads/log/crawler_scprits_handler.log',
-            # 单个文件大小 300M
-            'maxBytes': 300 * 1024 * 1024,
-            # 最多储存文件个数，超过十个则重头开始覆盖第一个文件
-            'backupCount': 10,
-            # 使用哪种formatters日志格式
-            'formatter': 'standard',
-        }
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['default', 'console'],
-            'level': 'DEBUG',
-            'propagate': False
-        },
-        'django.request': {
-            'handlers': ['request_handler'],
-            'level': 'DEBUG',
-            'propagate': False,
-        },
-        'scripts': {
-            'handlers': ['scprits_handler'],
-            'level': 'INFO',
-            'propagate': False
-        },
-        'sourceDns.webdns.views': {
-            'handlers': ['default', 'error'],
-            'level': 'DEBUG',
-            'propagate': True
-        },
-        'sourceDns.webdns.util': {
-            'handlers': ['error'],
-            'level': 'ERROR',
-            'propagate': True
-        },
-        'file': {
-            'handlers': ['file'],
-            'level': 'ERROR',
-            'propagate': True
-        },
-        'error': {
-            'handlers': ['error'],
-            'level': 'ERROR',
-            'propagate': True
-        },
-    }
-}
+# LOGGING = {
+#     # 设置版本
+#     'version': 1,
+#     # 是否允许其他日志功能，Flase表示不禁用，禁用导致其他记录日志的功能将被阻止
+#     'disable_existing_loggers': True,
+#     # 格式化，日志输出格式
+#     'formatters': {
+#         # 详细
+#        'standard': {
+#             # 日志格式
+#             'format': '%(asctime)s [%(threadName)s:%(thread)d] [%(name)s:%(lineno)d] [%(module)s:%(funcName)s] [%(levelname)s]- %(message)s-%(process)d'
+#        },
+#         # 简单，可以自己添加或减少，看需求
+#         'simple': {
+#             'format': '%(levelname)s %(module)s  %(message)s'
+#         },
+#     },
+#     # 过滤器，过滤掉debug级别的错误，原因：debuf会输出在控制台，没必要记录
+#     'filters': {
+#         'require_debug_true': {
+#             '()': 'django.utils.log.RequireDebugTrue',
+#         },
+#     },
+#     # 日志的处理方式
+#     'handlers': {
+#         # 将级别为DEBUG的错误以简单的形式输出在控制台
+#         'console': {
+#             'level': 'DEBUG',
+#             'filters': ['require_debug_true'],
+#             'class': 'logging.StreamHandler',
+#             'formatter': 'simple'
+#         },
+#         # 'console': {
+#         #     'level': 'DEBUG',
+#         #     'class': 'logging.StreamHandler',
+#         #     'formatter': 'standard'
+#         # },
+#         # 将INFO级别及以上的错误储存在文件中
+#         'file': {
+#             'level': 'INFO',
+#             'class': 'logging.handlers.RotatingFileHandler',
+#             # 日志文件的位置
+#             'filename': '/Users/guozhixiao/Downloads/log/crawler.log',
+#             # 单个文件大小 300M
+#             'maxBytes': 300 * 1024 * 1024,
+#             # 最多储存文件个数，超过十个则重头开始覆盖第一个文件
+#             'backupCount': 10,
+#             # 使用哪种formatters日志格式
+#             'formatter': 'standard',
+#         },
+#         # 以邮件形式发送日志
+#         'mail_admins': {
+#             'level': 'ERROR',
+#             'class': 'django.utils.log.AdminEmailHandler',
+#             'include_html': True,
+#         },
+#         # 默认debug级别
+#         'default': {
+#             'level': 'DEBUG',
+#             'class': 'logging.handlers.RotatingFileHandler',
+#             # 日志文件的位置
+#             'filename': '/Users/guozhixiao/Downloads/log/crawler_default.log',
+#             # 单个文件大小 300M
+#             'maxBytes': 300 * 1024 * 1024,
+#             # 最多储存文件个数，超过十个则重头开始覆盖第一个文件
+#             'backupCount': 10,
+#             # 使用哪种formatters日志格式
+#             'formatter': 'standard',
+#         },
+#         # 错误级别日志
+#         'error': {
+#             'level': 'ERROR',
+#             'class': 'logging.handlers.RotatingFileHandler',
+#             'filename': '/Users/guozhixiao/Downloads/log/crawler_error.log',
+#             # 单个文件大小 300M
+#             'maxBytes': 300 * 1024 * 1024,
+#             # 最多储存文件个数，超过十个则重头开始覆盖第一个文件
+#             'backupCount': 10,
+#             # 使用哪种formatters日志格式
+#             'formatter': 'standard',
+#         },
+#         'request_handler': {
+#             'level': 'DEBUG',
+#             'class': 'logging.handlers.RotatingFileHandler',
+#             'filename': '/Users/guozhixiao/Downloads/log/crawler_request_handler.log',
+#             # 单个文件大小 300M
+#             'maxBytes': 300 * 1024 * 1024,
+#             # 最多储存文件个数，超过十个则重头开始覆盖第一个文件
+#             'backupCount': 10,
+#             # 使用哪种formatters日志格式
+#             'formatter': 'standard',
+#         },
+#         'scprits_handler': {
+#             'level': 'DEBUG',
+#             'class': 'logging.handlers.RotatingFileHandler',
+#             'filename': '/Users/guozhixiao/Downloads/log/crawler_scprits_handler.log',
+#             # 单个文件大小 300M
+#             'maxBytes': 300 * 1024 * 1024,
+#             # 最多储存文件个数，超过十个则重头开始覆盖第一个文件
+#             'backupCount': 10,
+#             # 使用哪种formatters日志格式
+#             'formatter': 'standard',
+#         }
+#     },
+#     'loggers': {
+#         'django': {
+#             'handlers': ['default', 'console'],
+#             'level': 'DEBUG',
+#             'propagate': False
+#         },
+#         'django.request': {
+#             'handlers': ['request_handler'],
+#             'level': 'DEBUG',
+#             'propagate': False,
+#         },
+#         'scripts': {
+#             'handlers': ['scprits_handler'],
+#             'level': 'INFO',
+#             'propagate': False
+#         },
+#         'sourceDns.webdns.views': {
+#             'handlers': ['default', 'error'],
+#             'level': 'DEBUG',
+#             'propagate': True
+#         },
+#         'sourceDns.webdns.util': {
+#             'handlers': ['error'],
+#             'level': 'ERROR',
+#             'propagate': True
+#         },
+#         'file': {
+#             'handlers': ['file'],
+#             'level': 'ERROR',
+#             'propagate': True
+#         },
+#         'error': {
+#             'handlers': ['error'],
+#             'level': 'ERROR',
+#             'propagate': True
+#         },
+#     }
+# }
