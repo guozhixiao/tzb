@@ -83,7 +83,7 @@ def face(id):
         'id': id
     }
     data = IpCameraModel.getOne(where)
-    if len(data) == 0:
+    if data == None:
         return '摄像头不存在'
     # 获取当前时间戳做图像保存文件名
     current_time = time.time()
