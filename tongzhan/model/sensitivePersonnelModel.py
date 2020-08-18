@@ -7,6 +7,7 @@ from .models import SensitivePersonnel
 from .models import FaceRecognitionIndex
 from .models import Face
 from .models import TempleFace
+from .models import Ipcamera
 
 # 敏感人员信息表
 class SensitivePersonnelModel():
@@ -33,7 +34,6 @@ class FaceRecognitionIndexModel():
         return FaceRecognitionIndex.objects.filter(**where).update(**data)
 
 
-#
 class FaceModel():
     def create(data):
         return Face.objects.create(**data)
@@ -46,4 +46,10 @@ class FaceModel():
 class TempleFaceModel:
     def create(data):
         return TempleFace.objects.create(**data)
+
+# 获取摄像头信息
+class IpCameraModel:
+    def getOne(where):
+        return Ipcamera.objects.filter(**where).values().first()
+
 

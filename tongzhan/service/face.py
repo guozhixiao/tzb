@@ -6,6 +6,7 @@ django.setup()
 from ..model.sensitivePersonnelModel import FaceRecognitionIndexModel
 from ..model.sensitivePersonnelModel import SensitivePersonnelModel
 from ..model.sensitivePersonnelModel import TempleFaceModel
+from ..model.sensitivePersonnelModel import IpCameraModel
 
 import face_recognition
 import time
@@ -76,12 +77,19 @@ def test(path):
             return ""
 
 # 视频流截取图片
-def face(path):
+def face(id):
+    # 根据摄像头ID获取摄像头url
+    where = {
+        'id': id
+    }
+    data = IpCameraModel.getOne(where)
+    if len(data) == 0:
+        return '摄像头不存在'
     # 获取当前时间戳做图像保存文件名
     current_time = time.time()
 
     # 打开视频流或者视频文件
-    vidcap = cv2.VideoCapture(path)
+    vidcap = cv2.VideoCapture(data['ip'])
 
     # 按帧读取视频流  image就是每一帧的图像
     success, image = vidcap.read()
@@ -89,12 +97,12 @@ def face(path):
     # 读取成功success 为True
     while success:
         # 将读取成功image帧图像保存
-        cv2.imwrite("/Users/guozhixiao/Downloads/%d.jpg" % int(current_time), image)
+        cv2.imwrite("/data/www/Downloads/%d.jpg" % int(current_time), image)
         break
 
     # 通过load_image_file方法加载待识别图片
-    face_image = face_recognition.load_image_file("/Users/guozhixiao/Downloads/%d.jpg" % int(current_time))
-    cv2.imshow('lasd', face_image)
+    face_image = face_recognition.load_image_file("/data/www/Downloads/%d.jpg" % int(current_time))
+
     # 提取人脸编码 人脸的信息
     face_encodings = face_recognition.face_encodings(face_image)
 
@@ -128,7 +136,7 @@ def face(path):
 
                     md5_file = md5(str(currtime))
 
-                    url = "/Users/guozhixiao/Downloads/%s.jpg" % md5_file
+                    url = "/data/www/Downloads/%d.jpg" % md5_file
 
                     # 添加人脸
                     create = {
@@ -139,12 +147,10 @@ def face(path):
                     TempleFaceModel.create(create)
                     cv2.imwrite(url, face_image)
 
-
                     return ""
                 except Exception as e:
                     print(e)
         else:
-            print("----------有数据进来------------")
             for i in range(len(face_encodings)):
                 face_encoding = face_encodings[i]
                 face_location = face_locations[i]
@@ -158,7 +164,7 @@ def face(path):
 
                 md5_file = md5(str(currtime))
 
-                url = "/Users/guozhixiao/Downloads/%s.jpg" % md5_file
+                url = "/data/www/Downloads/%d.jpg" % md5_file
 
                 # 添加人脸
                 create = {
@@ -173,7 +179,7 @@ def face(path):
                 for a in data:
                     try:
                         face = string_numpy(a['face_recognition'])
-                        print(a['face_recognition'],'------------获取face')
+
                         results = face_recognition.compare_faces(face, face_encoding, tolerance=0.4)
 
                         print(results)
@@ -203,9 +209,8 @@ def face(path):
                 # 写字
                 # cv2.putText(face_image, "", (left-10, top-10), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 0), 2)
 
-                res = "/Users/guozhixiao/Downloads/%d.jpg" % int(time.time())
+                res = "/data/www/Downloads/%d.jpg" % int(time.time())
 
-                # cv2.imwrite(res, roiImg)
                 # 人脸框颜色
                 face_image_rgb = cv2.cvtColor(face_image, cv2.COLOR_BGR2RGB)
 

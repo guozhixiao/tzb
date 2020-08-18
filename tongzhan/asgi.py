@@ -32,7 +32,6 @@ async def application(scope, receive, send):
 
 
 async def websocket_application(scope, receive, send):
-    print(send)
     while True:
         # receive接受赋值给event
         event = await receive()
@@ -51,9 +50,10 @@ async def websocket_application(scope, receive, send):
             print(event["text"])
             j = json.loads(event['text'])
             # 如果 cmd 为 1001 就去视频对比
+            print(j["cmd"])
             if j["cmd"] == 1001:
-                # {"cmd":1001,"path":"rtmp://58.200.131.2:1935/livetv/dftv"}
-                msg = face(j["path"])
+                # {"cmd":1001,"id":1}
+                msg = face(j["id"])
                 await send({
                     'type': 'websocket.send',
                     'text': msg
