@@ -223,8 +223,7 @@ def face(id):
                 # 保存文件
                 cv2.imwrite(res, face_image)
 
-    j = json.dumps(datas)
-    return j
+    return datas
 
 # 将人脸coding转为字符串
 def face_analysis(image_face_encoding):

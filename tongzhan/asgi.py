@@ -54,9 +54,15 @@ async def websocket_application(scope, receive, send):
             if j["cmd"] == 1001:
                 # {"cmd":1001,"id":1}
                 msg = face(j["id"])
+                data = {
+                    'code': 0,
+                    'msg': "success",
+                    'data': msg
+                }
+                j = json.dumps(data)
                 await send({
                     'type': 'websocket.send',
-                    'text': msg
+                    'text': j
                 })
             else:
                 await send({
